@@ -18,7 +18,7 @@ export default defineConfig(async ({ mode }) => {
   }
 
   return {
-    plugins,
+    base: '/Omegia-2.0/',\n    plugins,
     envPrefix: ['VITE_', 'NEXT_PUBLIC_'],
     define: processEnvDefines,
   };
