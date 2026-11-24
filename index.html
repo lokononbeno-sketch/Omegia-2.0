@@ -6,9 +6,29 @@
     <meta name="theme-color" content="#a855f7" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Omegia - Réseau Social & Messagerie Unifiée</title>
+    <style>
+      body { margin: 0; background: #020617; color: #e2e8f0; font-family: system-ui, sans-serif; }
+      #boot { padding: 24px; font-size: 15px; }
+      #boot pre { white-space: pre-wrap; word-break: break-word; background: #0f172a; border: 1px solid #7e22ce; border-radius: 12px; padding: 12px; font-size: 12px; color: #fca5a5; }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><div id="boot">Chargement d'Omegia…</div></div>
+    <script>
+      // Affiche l'erreur à l'écran au lieu d'une page blanche
+      function showErr(msg) {
+        var el = document.getElementById('boot') || document.getElementById('root');
+        if (!el) return;
+        el.innerHTML = '<div id="boot">Erreur Omegia :<pre></pre></div>';
+        el.querySelector('pre').textContent = msg;
+      }
+      window.addEventListener('error', function (e) {
+        showErr((e.message || 'Erreur') + (e.filename ? '\n' + e.filename + ':' + e.lineno : ''));
+      });
+      window.addEventListener('unhandledrejection', function (e) {
+        showErr('Promesse rejetée : ' + (e.reason && (e.reason.stack || e.reason.message) || e.reason));
+      });
+    </script>
     <script type="module" src="./main.tsx"></script>
   </body>
 </html>
