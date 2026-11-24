@@ -3,7 +3,7 @@ import {
   Crown, ShieldCheck, MapPin, Calendar, Users, Heart, 
   MessageSquare, UserPlus, UserCheck, Settings, Edit3 
 } from 'lucide-react';
-import PostCard from '../Feed/PostCard';
+import PostCard from './PostCard';
 
 export default function ProfilePage({ profile, posts, currentUser }) {
   const [activeTab, setActiveTab] = useState('feed'); // feed, media, info
