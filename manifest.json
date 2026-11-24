@@ -1,0 +1,17 @@
+{
+  "short_name": "Omegia",
+  "name": "Omegia Social & Messagerie",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#030712",
+  "theme_color": "#a855f7",
+  "display": "standalone",
+  "orientation": "portrait",
+  "description": "Réseau Social et Messagerie Unifiée Omegia avec l'œil omniscient."
+}
