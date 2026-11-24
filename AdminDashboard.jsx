@@ -3,7 +3,7 @@ import {
   Crown, ShieldCheck, Activity, Users, Radio, MessageSquare, 
   Send, Eye, Lock, CheckCircle2, AlertTriangle, Pin, Sparkles, Sliders 
 } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from './AuthContext.jsx';
 
 export default function AdminDashboard() {
   const { profile, allProfiles, setBroadcastAlert, broadcastAlert, eyeStats } = useAuth();
