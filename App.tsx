@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import Navbar from './components/Navbar';
-import Feed from './components/Feed/Feed';
-import ChatApp from './components/Messaging/ChatApp';
-import StoryViewerModal from './components/Stories/StoryViewerModal';
-import CreateStoryModal from './components/Stories/CreateStoryModal';
-import AdminDashboard from './components/Admin/AdminDashboard';
-import ProfilePage from './components/Profile/ProfilePage';
-import NotificationsDrawer from './components/Notifications/NotificationsDrawer';
-import { handleGoogleRedirect } from './lib/googleAuth';
+import { AuthProvider, useAuth } from './AuthContext.jsx';
+import Navbar from './Navbar.jsx';
+import Feed from './Feed.jsx';
+import ChatApp from './ChatApp.jsx';
+import StoryViewerModal from './StoryViewerModal.jsx';
+import CreateStoryModal from './CreateStoryModal.jsx';
+import AdminDashboard from './AdminDashboard.jsx';
+import ProfilePage from './ProfilePage.jsx';
+import NotificationsDrawer from './NotificationsDrawer.jsx';
+import { handleGoogleRedirect } from './googleAuth.js';
 
 // Initialize google redirect synchronously
 handleGoogleRedirect();
