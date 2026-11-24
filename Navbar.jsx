@@ -6,7 +6,7 @@ import {
 import OmegiaEye from './OmegiaEye';
 import InstallApkModal from './InstallApkModal';
 import AuthModal from './AuthModal';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from './AuthContext.jsx';
 
 export default function Navbar({ activeTab, setActiveTab, unreadMessagesCount = 2, unreadNotifsCount = 3 }) {
   const { profile, allProfiles, switchAccount, broadcastAlert } = useAuth();
