@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Phone, Lock, Sparkles, X, Check, Globe } from 'lucide-react';
-import { signInWithGoogle } from '../lib/googleAuth';
-import supabase from '../lib/supabase';
+import { signInWithGoogle } from './googleAuth.js';
+import supabase from './supabase';
 
 export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
   const [authMethod, setAuthMethod] = useState('email');
