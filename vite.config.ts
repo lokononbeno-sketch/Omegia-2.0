@@ -1,10 +1,39 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { existsSync, readdirSync } from 'node:fs'
+import path from 'node:path'
+
+// Tous les fichiers sont à la racine du dépôt, mais les imports du code attendent
+// des sous-dossiers (ex: ./components/Feed/Feed, ../../contexts/AuthContext).
+// Ce plugin retrouve le bon fichier à la racine à partir de son nom.
+function flatResolve() {
+  const root = process.cwd()
+  const exts = ['.tsx', '.ts', '.jsx', '.js']
+  const files = new Map<string, string>()
+  for (const f of readdirSync(root)) {
+    const p = path.parse(f)
+    if (exts.includes(p.ext) && !files.has(p.name)) {
+      files.set(p.name, path.join(root, f))
+    }
+  }
+  return {
+    name: 'flat-resolve',
+    enforce: 'pre' as const,
+    resolveId(source: string, importer?: string) {
+      if (!importer || !source.startsWith('.')) return null
+      if (importer.includes('node_modules')) return null
+      const target = path.resolve(path.dirname(importer), source)
+      if (existsSync(target) && path.extname(target)) return null
+      if (exts.some((e) => existsSync(target + e))) return null
+      return files.get(path.parse(source).name) ?? null
+    },
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig(async ({ mode }) => {
-  const plugins = [react(), tailwindcss()];
+  const plugins: any[] = [flatResolve(), react(), tailwindcss()];
   try {
     // @ts-ignore
     const m = await import('./.vite-source-tags.js');
@@ -18,7 +47,7 @@ export default defineConfig(async ({ mode }) => {
   }
 
   return {
-    base: '/Omegia-2.0/',
+    base: './',
     plugins,
     envPrefix: ['VITE_', 'NEXT_PUBLIC_'],
     define: processEnvDefines,
