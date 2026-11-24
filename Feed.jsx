@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Flame, Rss, Crown, Radio, Sparkles, Filter, Search } from 'lucide-react';
 import PostCard from './PostCard';
 import CreatePostModal from './CreatePostModal';
-import StoriesBar from '../Stories/StoriesBar';
+import StoriesBar from './StoriesBar';
 
 export default function Feed({ currentUser, posts, onCreatePost, onSelectStory, onCreateStory, onOpenStoryViewer }) {
   const [filter, setFilter] = useState('all'); // all, admin, media, voice
