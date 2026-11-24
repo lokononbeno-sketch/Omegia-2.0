@@ -1,6 +1,6 @@
 import React from 'react';
 import { Plus, Crown, Radio } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from './AuthContext.jsx';
 
 export const SAMPLE_STORIES = [
   {
