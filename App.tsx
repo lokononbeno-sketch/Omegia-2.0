@@ -8,6 +8,10 @@ import CreateStoryModal from './components/Stories/CreateStoryModal';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import ProfilePage from './components/Profile/ProfilePage';
 import NotificationsDrawer from './components/Notifications/NotificationsDrawer';
+import MobileBottomNav from './components/MobileBottomNav';
+import MenuDrawer from './components/MenuDrawer';
+import InstallApkModal from './components/InstallApkModal';
+import AuthModal from './components/AuthModal';
 import { handleGoogleRedirect } from './lib/googleAuth';
 
 // Initialize google redirect synchronously
@@ -32,54 +36,17 @@ const INITIAL_POSTS: any[] = [
     shares_count: 24,
     pinned: true,
     created_at: 'Il y a 15 minutes'
-  },
-  {
-    id: 'p_2',
-    author: {
-      id: 'usr_sarah',
-      full_name: 'Sarah Connor',
-      username: 'sarah_design',
-      avatar_url: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300',
-      is_admin: false,
-      is_verified: true
-    },
-    content: '🎨 Quel design préférez-vous pour le thème sombre d\'Omegia v2.5 ? Exprimez votre choix dans ce sondage !',
-    media_type: 'poll',
-    poll_options: [
-      { id: 1, text: '💜 Violet Omegia Cosmique (Actuel)', votes: 42 },
-      { id: 2, text: '💙 Cyan Électrique WhatsApp', votes: 18 },
-      { id: 3, text: '🖤 Noir Profond OLED', votes: 29 }
-    ],
-    likes_count: 45,
-    comments_count: 8,
-    shares_count: 6,
-    created_at: 'Il y a 45 minutes'
-  },
-  {
-    id: 'p_3',
-    author: {
-      id: 'usr_marcus',
-      full_name: 'Marcus Brody',
-      username: 'marcus_brody',
-      avatar_url: 'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=300',
-      is_admin: false,
-      is_verified: true
-    },
-    content: '🎙️ Flash Info Omegia : Écoutez ma nouvelle note vocale sur les fonctionnalités de confidentialité de l\'application !',
-    media_type: 'voice',
-    likes_count: 29,
-    comments_count: 5,
-    shares_count: 11,
-    created_at: 'Il y a 2 heures'
   }
 ];
 
 function MainApp() {
   const { profile } = useAuth();
-  const [activeTab, setActiveTab] = useState<string>('feed'); // feed, chat, stories, admin, profile, notifications
+  const [activeTab, setActiveTab] = useState<string>('feed'); // feed, chat, stories, admin, profile, notifications, menu
   const [posts, setPosts] = useState<any[]>(INITIAL_POSTS);
   const [activeStory, setActiveStory] = useState<any>(null);
   const [isStoryModalOpen, setIsStoryModalOpen] = useState<boolean>(false);
+  const [isInstallModalOpen, setIsInstallModalOpen] = useState<boolean>(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
 
   // Fetch posts from API if available
   const fetchPosts = async () => {
@@ -136,16 +103,17 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-purple-500 selection:text-white">
+    <div className="min-h-screen max-w-full overflow-x-hidden bg-slate-950 text-slate-100 font-sans selection:bg-purple-500 selection:text-white">
       
       {/* Top Navbar Header */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        onCreatePost={handleCreatePost}
       />
 
       {/* Main Container */}
-      <main className="max-w-7xl mx-auto px-4 pt-6">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 pt-4 sm:pt-6 pb-20 max-w-full overflow-x-hidden">
         {activeTab === 'feed' && (
           <Feed
             currentUser={profile}
@@ -187,7 +155,21 @@ function MainApp() {
         {activeTab === 'notifications' && (
           <NotificationsDrawer onOpenNotif={() => {}} />
         )}
+
+        {activeTab === 'menu' && (
+          <MenuDrawer
+            setActiveTab={setActiveTab}
+            onOpenInstallModal={() => setIsInstallModalOpen(true)}
+            onOpenAuthModal={() => setIsAuthModalOpen(true)}
+          />
+        )}
       </main>
+
+      {/* Mobile Bottom Navigation Bar (Facebook App style) */}
+      <MobileBottomNav
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
 
       {/* Story Modals */}
       {activeStory && (
@@ -203,6 +185,17 @@ function MainApp() {
         onClose={() => setIsStoryModalOpen(false)}
         onSubmit={handleCreateStory}
         currentUser={profile}
+      />
+
+      <InstallApkModal
+        isOpen={isInstallModalOpen}
+        onClose={() => setIsInstallModalOpen(false)}
+      />
+
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onLoginSuccess={() => {}}
       />
 
     </div>

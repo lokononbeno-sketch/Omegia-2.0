@@ -27,15 +27,6 @@ export const SAMPLE_STORIES = [
     media_url: 'https://images.pexels.com/photos/1421903/pexels-photo-1421903.jpeg?auto=compress&cs=tinysrgb&w=800',
     text_content: 'Coucher de soleil en live 🌅',
     viewed: true
-  },
-  {
-    id: 'st_4',
-    user_name: 'Alex Vance',
-    user_avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=300',
-    media_url: '',
-    bg_color: 'from-purple-900 to-indigo-900',
-    text_content: 'Code session de nuit. Direct WhatsApp prêt ! 💻',
-    viewed: false
   }
 ];
 
@@ -43,58 +34,63 @@ export default function StoriesBar({ onCreateStory, onOpenStoryViewer }) {
   const { profile } = useAuth();
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 shadow-xl overflow-hidden">
-      <div className="flex items-center space-x-3 overflow-x-auto pb-1 scrollbar-none">
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-2.5 shadow-lg overflow-hidden">
+      <div className="flex items-center space-x-2.5 overflow-x-auto pb-1 scrollbar-none">
         
-        {/* Add My Story Button */}
+        {/* Card 1: "Créer une story" Card (Exactly matching Facebook Image 1) */}
         <div 
           onClick={onCreateStory}
-          className="relative flex-shrink-0 w-24 h-36 rounded-xl overflow-hidden cursor-pointer group border border-purple-500/40 bg-slate-950 transition-transform hover:scale-105"
+          className="relative flex-shrink-0 w-28 h-48 rounded-2xl overflow-hidden cursor-pointer group border border-slate-800 bg-slate-950 shadow-md transition-transform hover:scale-105 flex flex-col justify-between"
         >
-          <img src={profile?.avatar_url} alt="" className="w-full h-24 object-cover" />
-          <div className="absolute inset-x-0 bottom-0 h-16 bg-slate-900 p-1 text-center flex flex-col items-center justify-end">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-7 h-7 bg-purple-600 rounded-full border-2 border-slate-900 flex items-center justify-center text-white shadow-lg">
-              <Plus className="w-4 h-4" />
+          {/* Top User Photo */}
+          <div className="h-32 w-full relative overflow-hidden bg-slate-900">
+            <img src={profile?.avatar_url} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+          </div>
+
+          {/* Bottom "Créer une story" with blue (+) button */}
+          <div className="h-16 w-full bg-slate-900 px-1 pt-3 pb-1 text-center flex flex-col items-center justify-center relative">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-purple-600 hover:bg-purple-500 rounded-full border-2 border-slate-900 flex items-center justify-center text-white shadow-xl">
+              <Plus className="w-5 h-5" />
             </div>
-            <span className="text-[10px] font-bold text-slate-200">Ajouter Story</span>
+            <span className="text-[11px] font-bold text-white leading-tight mt-1">Créer une story</span>
           </div>
         </div>
 
-        {/* Story List Items */}
+        {/* Tall Story Cards (Facebook style with avatar ring in top left) */}
         {SAMPLE_STORIES.map((story) => (
           <div
             key={story.id}
             onClick={() => onOpenStoryViewer && onOpenStoryViewer(story)}
-            className="relative flex-shrink-0 w-24 h-36 rounded-xl overflow-hidden cursor-pointer group transition-transform hover:scale-105 shadow-md border border-slate-800"
+            className="relative flex-shrink-0 w-28 h-48 rounded-2xl overflow-hidden cursor-pointer group transition-transform hover:scale-105 shadow-md border border-slate-800 bg-slate-950"
           >
-            {/* Story Preview Image or Gradient Background */}
+            {/* Story Image / Preview */}
             {story.media_url ? (
               <img src={story.media_url} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
             ) : (
               <div className={`w-full h-full bg-gradient-to-br ${story.bg_color || 'from-purple-900 to-indigo-950'} p-2 flex items-center justify-center text-center`}>
-                <p className="text-[10px] font-semibold text-white line-clamp-3">{story.text_content}</p>
+                <p className="text-[10px] font-semibold text-white line-clamp-4">{story.text_content}</p>
               </div>
             )}
 
             {/* Dark Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-slate-950/90" />
 
-            {/* Avatar Ring */}
-            <div className="absolute top-2 left-2">
-              <div className={`p-0.5 rounded-full ${story.viewed ? 'bg-slate-600' : 'bg-gradient-to-r from-purple-500 via-cyan-400 to-indigo-500 animate-pulse'}`}>
-                <img src={story.user_avatar} alt="" className="w-7 h-7 rounded-full object-cover border border-slate-950" />
+            {/* Avatar Ring top-left */}
+            <div className="absolute top-2 left-2 z-10">
+              <div className={`p-0.5 rounded-full ${story.viewed ? 'bg-slate-600' : 'ring-2 ring-purple-500 bg-purple-900/80 animate-pulse'}`}>
+                <img src={story.user_avatar} alt="" className="w-8 h-8 rounded-full object-cover border border-slate-950" />
               </div>
             </div>
 
             {/* Admin Badge */}
             {story.is_admin && (
-              <div className="absolute top-2 right-2">
+              <div className="absolute top-2 right-2 z-10">
                 <Crown className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
               </div>
             )}
 
             {/* User Name at bottom */}
-            <div className="absolute bottom-2 inset-x-2 text-[11px] font-semibold text-white truncate shadow-sm">
+            <div className="absolute bottom-2.5 inset-x-2 text-[11px] font-bold text-white truncate shadow-sm">
               {story.user_name}
             </div>
 
